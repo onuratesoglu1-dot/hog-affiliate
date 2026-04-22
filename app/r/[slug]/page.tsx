@@ -1,9 +1,15 @@
 import { redirect } from "next/navigation";
+import { supabase } from "../../../lib/supabase";
 
 const IOS_URL = "https://apps.apple.com/app/id6478711957";
+const ANDROID_URL = "https://play.google.com/store/apps/details?id=com.onur.hellofgym";
 
 export default async function AffiliatePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  console.log("affiliate slug:", slug);
+
+  try {
+    await supabase.from("affiliate_clicks").insert({ slug });
+  } catch (_) {}
+
   redirect(IOS_URL);
 }
