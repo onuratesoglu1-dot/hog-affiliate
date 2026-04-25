@@ -86,13 +86,9 @@ export default async function PanelPage({ params }: { params: Promise<{ slug: st
           />
 
           <div style={{ background: "#151515", border: "1px solid #FF7A00", borderRadius: 16, padding: 20, marginBottom: 16, textAlign: "center" }}>
-            <div style={{ color: "#888", fontSize: 13, marginBottom: 6 }}>Bu Ay Toplam Abonelik Geliri</div>
-            <div style={{ fontSize: 32, fontWeight: 900, color: "#fff" }}>{expected_payment.toLocaleString("tr-TR")} ₺</div>
-            <div style={{ marginTop: 12, paddingTop: 12, borderTop: "1px solid #262626" }}>
-              <div style={{ color: "#888", fontSize: 13, marginBottom: 4 }}>Senin Payın (Apple sonrası %20)</div>
-              <div style={{ fontSize: 28, fontWeight: 900, color: "#FF7A00" }}>{commission.toLocaleString("tr-TR")} ₺</div>
-            </div>
-            <div style={{ color: "#555", fontSize: 11, marginTop: 8 }}>Apple %30 komisyon sonrası • Her ayın 1'inde ödenir</div>
+            <div style={{ color: "#888", fontSize: 13, marginBottom: 6 }}>Bu Ay Kazancın</div>
+            <div style={{ fontSize: 36, fontWeight: 900, color: "#FF7A00" }}>{commission.toLocaleString("tr-TR")} ₺</div>
+            <div style={{ color: "#555", fontSize: 11, marginTop: 8 }}>Her ayın 1'inde ödenir</div>
           </div>
 
           <div style={{ background: "#151515", border: "1px solid #262626", borderRadius: 16, overflow: "hidden" }}>
