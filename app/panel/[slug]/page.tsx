@@ -42,8 +42,21 @@ export default async function PanelPage({ params }: { params: Promise<{ slug: st
   };
 
   const apple_cut = 0.30; // Apple %30 alır
-  const commission_rate = 0.20; // Influencer %20 alır (Apple sonrası)
+  const commission_rate = 0.20;
   const commission = expected_payment * (1 - apple_cut) * commission_rate;
+
+  const PRODUCT_NAMES: Record<string, string> = {
+    "com.onur.hellofgym.premium.monthly": "HOG Premium",
+    "com.onur.hellofgym.pt.starter": "PT Starter",
+    "com.onur.hellofgym.pt.pro": "PT Pro",
+    "com.onur.hellofgym.pt.elite": "PT Elite",
+  };
+
+  const packageCounts: Record<string, number> = {};
+  clicks?.filter(c => c.paid && c.product_id).forEach(c => {
+    const name = PRODUCT_NAMES[c.product_id] || c.product_id;
+    packageCounts[name] = (packageCounts[name] || 0) + 1;
+  });
 
   const card = (label: string, value: string | number, color: string) => `
     <div style="background:#151515;border:1px solid #262626;border-radius:16px;padding:20px;text-align:center;flex:1;min-width:130px">
@@ -90,6 +103,18 @@ export default async function PanelPage({ params }: { params: Promise<{ slug: st
             <div style={{ fontSize: 36, fontWeight: 900, color: "#FF7A00" }}>{commission.toLocaleString("tr-TR")} ₺</div>
             <div style={{ color: "#555", fontSize: 11, marginTop: 8 }}>Her ayın 1'inde ödenir</div>
           </div>
+
+          {Object.keys(packageCounts).length > 0 && (
+            <div style={{ background: "#151515", border: "1px solid #262626", borderRadius: 16, padding: 16, marginBottom: 16 }}>
+              <div style={{ fontSize: 12, fontWeight: 800, color: "#888", letterSpacing: 1, marginBottom: 12 }}>AKTİF PAKETLER</div>
+              {Object.entries(packageCounts).map(([name, count]) => (
+                <div key={name} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingBottom: 10, marginBottom: 10, borderBottom: "1px solid #1a1a1a" }}>
+                  <span style={{ color: "#fff", fontSize: 14 }}>{name}</span>
+                  <span style={{ color: "#FF7A00", fontWeight: 900, fontSize: 18 }}>{count}</span>
+                </div>
+              ))}
+            </div>
+          )}
 
           <div style={{ background: "#151515", border: "1px solid #262626", borderRadius: 16, overflow: "hidden" }}>
             <div style={{ padding: "14px 16px", borderBottom: "1px solid #262626", fontSize: 12, fontWeight: 800, color: "#888", letterSpacing: 1 }}>SON KAYITLAR</div>
