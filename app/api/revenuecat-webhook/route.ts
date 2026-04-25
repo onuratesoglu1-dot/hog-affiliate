@@ -1,11 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "../../../lib/supabase";
 
+const PRODUCT_PRICES: Record<string, number> = {
+  "com.onur.hellofgym.premium.monthly": 49,
+  "com.onur.hellofgym.pt.starter": 149,
+  "com.onur.hellofgym.pt.pro": 299,
+  "com.onur.hellofgym.pt.elite": 599,
+};
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const event = body?.event;
     const userId = event?.app_user_id;
+    const productId = event?.product_id || "";
+    const price = PRODUCT_PRICES[productId] || 0;
 
     if (!userId) return NextResponse.json({ ok: false });
 
@@ -20,7 +29,12 @@ export async function POST(req: NextRequest) {
     if (event?.type === "RENEWAL" || event?.type === "INITIAL_PURCHASE") {
       await supabase
         .from("affiliate_clicks")
-        .update({ paid: true, paid_at: new Date().toISOString() })
+        .update({
+          paid: true,
+          paid_at: new Date().toISOString(),
+          product_id: productId,
+          price,
+        })
         .eq("user_id", userId);
     }
 
