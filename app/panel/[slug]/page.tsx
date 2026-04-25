@@ -41,8 +41,9 @@ export default async function PanelPage({ params }: { params: Promise<{ slug: st
     "com.onur.hellofgym.pt.elite": "PT Elite (599₺)",
   };
 
-  const commission_rate = 0.3; // %30 komisyon — bunu değiştirebilirsin
-  const commission = expected_payment * commission_rate;
+  const apple_cut = 0.30; // Apple %30 alır
+  const commission_rate = 0.20; // Influencer %20 alır (Apple sonrası)
+  const commission = expected_payment * (1 - apple_cut) * commission_rate;
 
   const card = (label: string, value: string | number, color: string) => `
     <div style="background:#151515;border:1px solid #262626;border-radius:16px;padding:20px;text-align:center;flex:1;min-width:130px">
@@ -88,10 +89,10 @@ export default async function PanelPage({ params }: { params: Promise<{ slug: st
             <div style={{ color: "#888", fontSize: 13, marginBottom: 6 }}>Bu Ay Toplam Abonelik Geliri</div>
             <div style={{ fontSize: 32, fontWeight: 900, color: "#fff" }}>{expected_payment.toLocaleString("tr-TR")} ₺</div>
             <div style={{ marginTop: 12, paddingTop: 12, borderTop: "1px solid #262626" }}>
-              <div style={{ color: "#888", fontSize: 13, marginBottom: 4 }}>Senin Payın (%30)</div>
+              <div style={{ color: "#888", fontSize: 13, marginBottom: 4 }}>Senin Payın (Apple sonrası %20)</div>
               <div style={{ fontSize: 28, fontWeight: 900, color: "#FF7A00" }}>{commission.toLocaleString("tr-TR")} ₺</div>
             </div>
-            <div style={{ color: "#555", fontSize: 11, marginTop: 8 }}>Her ayın 1'inde ödenir</div>
+            <div style={{ color: "#555", fontSize: 11, marginTop: 8 }}>Apple %30 komisyon sonrası • Her ayın 1'inde ödenir</div>
           </div>
 
           <div style={{ background: "#151515", border: "1px solid #262626", borderRadius: 16, overflow: "hidden" }}>
@@ -110,7 +111,7 @@ export default async function PanelPage({ params }: { params: Promise<{ slug: st
           </div>
 
           <div style={{ textAlign: "center", marginTop: 24, color: "#333", fontSize: 12 }}>
-            Her ayın 1'inde aktif abonelikler üzerinden %30 komisyon ödenir.
+            Her ayın 1'inde aktif abonelikler üzerinden Apple komisyonu düşüldükten sonra %20 ödenir.
           </div>
         </div>
       </body>
